@@ -60,7 +60,7 @@ input[type=range]{accent-color:var(--p);flex:1;min-width:100px}
 <div class="row"><button class="btn go" id="run">▶ Esegui</button><button class="btn step" id="stp">⏭ Passo</button><button class="btn rst" id="rst">↺ Reset</button></div>
 <div class="row"><label for="spd">🐢</label><input type="range" id="spd" min="1" max="10" value="6"><span>🐇</span></div>
 <div class="row" id="startrow" style="display:none"><b>Partenza:</b><label for="sc">Colonna</label><select id="sc"></select><label for="sr">Riga</label><select id="sr"></select><label for="sd">Verso</label><select id="sd"></select></div>
-<div class="row" id="ansrow" style="display:none"><label for="ans"><b>Casella finale:</b></label><input type="text" id="ans" maxlength="4" placeholder="es. B3"><button class="btn chk" id="chk">✔ Verifica</button></div>
+<div class="row" id="ansrow" style="display:none"><label for="ans"><b>Casella finale:</b></label><input type="text" id="ans" maxlength="4" placeholder="es. M7"><button class="btn chk" id="chk">✔ Verifica</button></div>
 <div id="cur"></div>
 <div id="msg"></div>
 </div>
@@ -130,7 +130,7 @@ else say(where,"info")}
 
 function check(){const a=$("ans").value.toUpperCase().replace(/[\s-]/g,"");
 const r=sim(parse(L.p).cmds,L.s).steps,e=r[r.length-1],ok=a===cell(e.x,e.y);
-if(!a){say("Scrivi la casella, ad esempio B3.","info");return}
+if(!a){say("Scrivi la casella, ad esempio M7.","info");return}
 say(ok?`✅ GIUSTO! Il robot finisce in ${cell(e.x,e.y)}. Premi Esegui per vederlo!`:"❌ SBAGLIATO. Ricontrolla il percorso passo dopo passo, oppure premi Esegui per vedere dove arriva il robot.",ok?"good":"bad")}
 
 function size(){const w=Math.max(280,Math.min($("cv").parentElement.clientWidth-28,680)),r=window.devicePixelRatio||1;
