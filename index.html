@@ -77,7 +77,7 @@ esempio:{n:"Esempio",t:"free",s:{x:2,y:5,d:0},p:"START\nMOVE(2)\nRIGHT\nMOVE(5)\
 es1:{n:"Esercizio 1",t:"trace",s:{x:7,y:17,d:1},p:EX1,txt:"Il robot parte da H-18 orientato a EST. Segui il programma, scrivi la casella in cui finisce e premi Verifica. Poi premi Esegui per vedere se hai ragione!"},
 es2:{n:"Esercizio 2",t:"write",s:{x:2,y:2,d:2},p:"",ref:REF2,txt:"Scrivi il programma che porta il robot lungo il tracciato giallo, da ▼ (C-3, orientato a SUD) fino a ●. Poi premi Esegui."},
 libero:{n:"Libero",t:"free",s:{x:9,y:10,d:0},p:"START\n\nSTOP",txt:"Modalità libera: parti da L-11 orientato a NORD e disegna il percorso che vuoi!"}};
-let L,T,steps=[],k=0,timer=null,ready=false,err=null,W=600;
+const saved={};let curId,L,T,steps=[],k=0,timer=null,ready=false,err=null,W=600;
 const cv=$("cv"),ctx=cv.getContext("2d"),css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
 function parse(t){const c=[];t.split("\n").forEach((l,i)=>{const s=l.trim().toUpperCase();if(s)c.push({s,line:i+1})});
@@ -98,9 +98,9 @@ x=nx;y=ny;st.push({x,y,d,i})}}
 else{d=(d+(c.t==="RIGHT"?1:3))%4;st.push({x,y,d,i})}}
 return{steps:st,error:e}}
 
-function load(id){stop();L=LV[id];T=null;
+function load(id){stop();if(L)saved[curId]=$("ed").value;curId=id;L=LV[id];T=null;
 if(L.ref){const r=sim(parse(L.ref).cmds,L.s).steps;T={steps:r,end:r[r.length-1],vis:new Set(r.map(a=>a.x+","+a.y))}}
-$("ed").value=L.p;$("task").textContent=L.txt;updTask();$("ansrow").style.display=L.t==="trace"?"flex":"none";$("ans").value="";
+$("ed").value=saved[id]!==undefined?saved[id]:L.p;$("task").textContent=L.txt;updTask();$("ansrow").style.display=L.t==="trace"?"flex":"none";$("ans").value="";
 $("startrow").style.display=id==="libero"?"flex":"none";if(id==="libero"){$("sc").value=L.s.x;$("sr").value=L.s.y;$("sd").value=L.s.d}
 document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on",b.dataset.id===id));
 reset()}
